@@ -1,4 +1,4 @@
-import {CREATE_CHAT, REMOVE_CHAT,SET_CHATS}from './action'
+import {ADD_CHAT, REMOVE_CHAT,SET_CHATS}from './action'
 
 const initialState={
     chats:[],
@@ -7,7 +7,7 @@ const initialState={
 export const chatsReducer = (state=initialState,action)=>{
 
     switch(action.type){
-        case CREATE_CHAT:{
+        case ADD_CHAT:{
             return{
             chats:[
                 ...state.chats,

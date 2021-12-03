@@ -1,52 +1,50 @@
 
 
-export const SET_ERROR = "SET_ERROR";
-export const SET_LOADING = "SET_LOADING";
-export const SET_DATA = "SET_DATA";
+export const SET_ERROR_COFFEES = "SET_ERROR_COFFEES";
+export const SET_LOADING_COFFEES = "SET_LOADING_COFFEES";
+export const SET_DATA_COFFEES = "SET_DATA_COFFEES";
 
 export const setLoading = (status) => ({
-    type: SET_LOADING,
+    type: SET_LOADING_COFFEES,
     payload: status
 });
 
 export const setError = (status) => ({
-    type: SET_ERROR,
+    type: SET_ERROR_COFFEES,
     payload: status
 });
 
-export const setData = (coffees) => ({
-    type: SET_DATA,
-    payload: coffees
+export const setData = (todos) => ({
+    type: SET_DATA_COFFEES,
+    payload: todos
 });
 
 
 
 
+const BLOCKS_API = "https://jsonplaceholder.typicode.com/photos"
 
-const COFFEES_API = "https://coffee.alexflipnote.dev/random";
-const WORDS_API="https://random-words-api.vercel.app/word"
+
 
 export const getRandomCoffees = async (dispatch) => {
 
-    dispatch(setLoading(true));
-    dispatch(setError(false));
-    // dispatch(setData([]))
+    dispatch(setLoading(true))
+    dispatch(setError(false))
+    dispatch(setData([]))
 
     try {
-        const response = await Promise.all([fetch(COFFEES_API), fetch(WORDS_API)]);
-        const [wordsResult, imageResult]= await Promise.all(response.map((response)=>response.json()));
+        const response = await fetch(BLOCKS_API);
 
-        // if (!response.ok) {
-        //     throw new Error('any error')
-        // }
+        if (!response.ok) {
+            throw new Error('any error')
+        }
+
+        const result =
+            await response.json()
 
 
 
-
-        dispatch(setData({
-            words: wordsResult.data[0],
-            url: imageResult[0].url
-        }));
+        dispatch(setData(result))
     } catch (e) {
         console.error(e);
         dispatch(setError(true))

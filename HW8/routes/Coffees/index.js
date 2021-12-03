@@ -1,61 +1,49 @@
-import React, {useEffect,} from 'react';
-import {Button, } from "react-bootstrap";
+
+
 import {getRandomCoffees} from "../../store/coffees/action";
-
-import {Loader} from '../../components/Loader'
-import {Error} from '../../components/Error'
-import {useDispatch, useSelector} from "react-redux";
-import {Figure} from "../../components/Figure"
-
-
 import {coffeesSelectors} from "../../store/coffees/selector";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {Button, Stack} from "react-bootstrap";
+import { Error } from "../../components/Error";
+import { Loader } from "../../components/Loader";
+import { List } from "../../components/List";
 
 
 export const Coffees = () => {
 
-    const dispatch=useDispatch();
+    const data=useSelector(coffeesSelectors.getCoffeesData);
+   const isError=useSelector(coffeesSelectors.getCoffeesError);
+   const isLoading=useSelector(coffeesSelectors.getCoffeesLoading);
+    const dispatch=useDispatch()
 
+    const getData = () => {
+        dispatch(getRandomCoffees);
+    }
 
-    const isError=useSelector(coffeesSelectors.getCoffeesError)
-    const isLoading=useSelector(coffeesSelectors.getCoffeesLoading)
-    const data=useSelector(coffeesSelectors.getCoffeesData)
-
-
-
-
-    const getData= ()=> dispatch(getRandomCoffees);
-
-    useEffect(()=>{
+    useEffect(() => {
         getData();
-    },[]);
-
-
+    }, [])
 
     return (
-
-        <div>
+        <Stack gap={3}>
             <h1>HW8</h1>
 
-
-
-            {
-              !isError &&  <Button onClick={getData} disabled={isLoading}>Next</Button>
-            }
-
+            <Button onClick={getData}>Recall effect</Button>
 
             {
-                isError && <Error reload={getData}/>
+                isLoading &&
+                <Loader />
+            }
+
+            {
+                isError &&
+                <Error reload={getData} />
             }
             {
-                isLoading && <Loader/>
+                !isLoading && data.length > 0 &&
+                <List  list={data} />
             }
-            {
-                !isLoading && data && <Figure {...data}/>
-            }
-
-
-        </div>
-
+        </Stack>
     );
 };

@@ -1,12 +1,12 @@
 
 
-export const getCoffeesFromStore = (state) => state.coffees;
-export const getCoffeesData = (state) => getCoffeesFromStore(state).data;
-export const getCoffeesLoading = (state) => getCoffeesFromStore(state).isLoading;
-export const getCoffeesError = (state) => getCoffeesFromStore(state).isError;
+export const getCoffeesStore = (state) => state.coffees;
+export const getCoffeesData = (state) => getCoffeesStore(state).data;
+export const getCoffeesLoading = (state) => getCoffeesStore(state).isLoading;
+export const getCoffeesError = (state) => getCoffeesStore(state).isError;
 
 export  const coffeesSelectors={
-    getCoffeesFromStore,
+    getCoffeesStore,
     getCoffeesData,
     getCoffeesLoading,
     getCoffeesError,
